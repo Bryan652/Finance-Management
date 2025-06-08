@@ -6,3 +6,5 @@
 Savings, Debt, and Expense
 
 
+- Need pala ng primary key 
+

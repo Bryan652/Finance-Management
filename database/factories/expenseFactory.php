@@ -17,11 +17,11 @@ class expenseFactory extends Factory
     public function definition(): array
     {
         return [
-            'amount' => "₱ ".fake()->randomFloat(2, 100, 10000),
-            'description' => fake()->sentence(),
-            'date' => fake()->date(),
-            'updated_at' => now(),
+            'amount' => fake()->randomFloat(2, 1000, 10000),
+            'description' => fake()->word(),
             'created_at' => now(),
+            'updated_at' => now(),
+            'date' => fake()->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }

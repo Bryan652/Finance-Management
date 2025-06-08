@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('saving', function (Blueprint $table) {
-            $table->string('amount')->required(); // parasan
+            $table->id();
+            $table->string('currency')->default('PHP');
+            $table->decimal('amount', 10, 2)->required();
             $table->text('description')->nullable(); // parasan
             $table->timestamp('saved_at')->nullable();
             $table->timestamps();

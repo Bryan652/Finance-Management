@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('debt', function (Blueprint $table) {
-            $table->string('amount')->required();
+            $table->id();
+            $table->string('currency')->default('PHP');
+            $table->decimal('amount', 10, 2)->required();
             $table->text('description')->nullable();
             $table->date('due_date')->nullable(); // for some credit cards that are needed to be paid
             $table->enum('status', ['pending', 'paid', 'overdue'])->default('pending'); // if the credit card is paid then update the status
-            $table->timestamp('paid_at')->nullable(); // When i paid it. Tanggalin ko siguro to kasi ma dedelete naman yung paid_at kapag bayad na
             $table->timestamps();
         });
     }

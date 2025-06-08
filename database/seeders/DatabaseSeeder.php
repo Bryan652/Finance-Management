@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\debt;
+use App\Models\expense;
+use App\Models\savings;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,9 +18,10 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        savings::factory(10)->create();
+
+        debt::factory(10)->create();
+
+        expense::factory(10)->create();
     }
 }

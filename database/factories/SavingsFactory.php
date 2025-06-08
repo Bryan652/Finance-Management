@@ -17,11 +17,11 @@ class SavingsFactory extends Factory
     public function definition(): array
     {
         return [
-            'amount' => "₱ ".fake()->randomFloat(2, 100, 10000),
-            'description' => fake()->sentence(),
-            'saved_at' => now(),
-            'updated_at' => now(),
+            'amount' => fake()->randomFloat(2, 1000, 10000),
+            'description' => fake()->word(),
+            'saved_at' => fake()->dateTimeBetween('-1 year', 'now'),
             'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

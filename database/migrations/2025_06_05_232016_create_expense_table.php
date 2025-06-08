@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('expense', function (Blueprint $table) {
-            $table->string('amount')->required();
+            $table->id();
+            $table->string('currency')->default('PHP');
+            $table->decimal('amount', 10, 2)->required();
             $table->text('description')->nullable(); // anong pinaggastusan
             $table->date('date')->nullable();
             $table->timestamps();
