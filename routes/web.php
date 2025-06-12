@@ -20,23 +20,20 @@ Route::get('/finance', function () {
     return view('Finance.index', ['savings' => $savings, 'expenses' => $expenses, 'debts' => $debts]);
 });
 
-
-Route::get('/finance/savings', function () {
-    $savings = Savings::all()->sortByDesc('saved_at');
-    return view('Finance.savings', ['savings' => $savings]);
+// For adding
+Route::get('/finance/{type}', function ($type) {
+    if ($type == 'savings') {
+        return view('Finance.savingsCreation');
+    } elseif ($type == 'expense') {
+        return view('Finance.expenseCreation');
+    } elseif ($type == 'debt') {
+        return view('Finance.debtCreation');
+    } else {
+        abort(404, 'Type not found');
+    }
 });
 
-Route::get('/finance/debt', function () {
-    $debts = Debt::all()->sortByDesc('due_date');
-    return view('Finance.debt', ['debts' => $debts]);
-});
-
-Route::get('/finance/expense', function () {
-    $expenses = Expense::all()->sortByDesc('date');
-    return view('Finance.expense', ['expenses' => $expenses]);
-});
-
-
+// This creates expenses
 Route::post('/create-debt', function() {
     request()->validate([
         'amount' => ['required', 'numeric'],
@@ -55,36 +52,117 @@ Route::post('/create-debt', function() {
     return redirect('/finance');
 });
 
-Route::post('/create-expense', function() {
+// This creates both savings and expenses
+Route::post('/create', function() {
     request()->validate([
         'amount' => ['required', 'numeric'],
         'due_date' => ['required', 'date'],
         'description' => ['required', 'string', 'max:255', 'min:3'],
     ]);
 
-    Expense::create([
-        'amount' => request('amount'),
-        'date' => request('due_date'),
-        'description' => request('description'),
-    ]);
+    if (request('type') == 'savings') {
+        Savings::create([
+            'amount' => request('amount'),
+            'saved_at' => request('due_date'),
+            'description' => request('description'),
+        ]);
+    } else {
+        Expense::create([
+            'amount' => request('amount'),
+            'date' => request('due_date'),
+            'description' => request('description'),
+        ]);
+    }
 
     return redirect('/finance');
 });
 
+// editpage nung savings at expense
+Route::get('/finance/{type}/{id}/edit', function($type, $id) {
+    //  http://127.0.0.1:8000/finance/savings/1/edit
 
-Route::post('/create-savings', function() {
+    if ($type == 'savings') {
+        $find = Savings::findOrFail($id);
+        return view('Finance.edit', ['item' => $find, 'title' => 'Edit Savings', 'description' => 'Savings Savings Savings']);
+    }
 
-    request()->validate([
-        'amount' => ['required', 'numeric'],
-        'due_date' => ['required', 'date'],
-        'description' => ['required', 'string', 'max:255', 'min:3']
-    ]);
+    elseif ($type == 'expense') {
+        $find = Expense::findOrFail($id);
+        return view('Finance.edit', ['item' => $find, 'title' => 'Edit Expense', 'description' => 'Expense Expense Expense']);
+    }
 
-    Savings::create([
-        'amount' => request('amount'),
-        'saved_at' => request('due_date'),
-        'description' => request('description')
-    ]);
+    elseif ($type == 'debt') {
+        $find = Debt::findOrFail($id);
+        return view('Finance.editDebt', ['debt' => $find]);
+    }
+
+    else {
+        abort(404, 'Type not found');
+    }
+
+});
+
+//updates nung tatlo
+Route::patch('/finance/{type}/{id}', function($type, $id) {
+
+    // updating ng savings
+    if ($type == 'savings') {
+        request()->validate([
+            'amount' => ['required', 'numeric'],
+            'saved_at' => ['required', 'date'],
+            'description' => ['required', 'string', 'max:255', 'min:3'],
+        ]);
+        $savings = Savings::findOrFail($id);
+        $savings->update([
+            'amount' => request('amount'),
+            'saved_at' => request('saved_at'),
+            'description' => request('description')
+        ]);
+    }
+
+    // updating ng expense
+    elseif ($type == 'expense') {
+        request()->validate([
+            'amount' => ['required', 'numeric'],
+            'date' => ['required', 'date'],
+            'description' => ['required', 'string', 'max:255', 'min:3'],
+        ]);
+        $expense = Expense::findOrFail($id);
+        $expense->update([
+            'amount' => request('amount'),
+            'date' => request('saved_at'),
+            'description' => request('description')
+        ]);
+    }
+
+    // updating ng debt
+    elseif ($type == 'debt') {
+        request()->validate([
+            'amount' => ['required', 'numeric'],
+            'description' => ['required', 'string', 'max:255', 'min:3'],
+            'due_date' => ['required', 'date'],
+            'status' => ['required', 'string', 'in:Pending,Paid,Overdue'],
+        ]);
+        $debt = Debt::findOrFail($id);
+        $debt->update([
+            'amount' => request('amount'),
+            'description' => request('description'),
+            'due_date' => request('due_date'),
+            'status' => request('status'),
+        ]);
+    }
+
     return redirect('/finance');
 });
 
+//delete
+Route::delete('/finance/{type}/{description}', function($type, $description) {
+    if ($type == 'savings') {
+        Savings::where('description', $description)->firstOrFail()->delete();
+    } elseif ($type == 'expense') {
+        Expense::where('description', $description)->firstOrFail()->delete();
+    } elseif ($type == 'debt') {
+        Debt::where('description', $description)->firstOrFail()->delete();
+    }
+    return redirect('/finance');
+});

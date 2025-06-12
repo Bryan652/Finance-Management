@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('currency')->default('PHP');
             $table->decimal('amount', 10, 2)->required();
             $table->text('description')->nullable(); // parasan
-            $table->timestamp('saved_at')->nullable();
+            $table->date('saved_at')->nullable();
             $table->timestamps();
         });
     }

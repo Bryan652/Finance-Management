@@ -23,11 +23,16 @@
                 <td class="px-6 py-4 whitespace-nowrap">{{ $saving->description }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ $saving->saved_at }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <button class="px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue active:bg-blue-600 transition duration-150 ease-in-out">Edit</button>
-                    <button class="ml-2 px-4 py-2 font-medium text-white bg-red-600 rounded-md hover:bg-red-500 focus:outline-none focus:shadow-outline-red active:bg-red-600 transition duration-150 ease-in-out">Delete</button>
+                    <div class="flex items-center space-x-2">
+                        <a href="/finance/savings/{{ $saving->id }}/edit" class="px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue active:bg-blue-600 transition duration-150 ease-in-out">Edit</a>
+                        <form method="POST" action="/finance/savings/{{ $saving->description }}" class="px-3 py-2 font-medium text-white bg-red-600 rounded-md hover:bg-red-500 focus:outline-none focus:shadow-outline-red active:bg-red-600 transition duration-150 ease-in-out">
+                            @csrf
+                            @method('DELETE')
+                            <button >Delete</button>
+                        </form>
+                    </div>
                 </td>
             </tr>
-
         </tbody>
         @endforeach
     </table>
@@ -52,8 +57,14 @@
                 <td class="px-6 py-4 whitespace-nowrap">{{ $expense->description }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ $expense->date }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <button class="px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue active:bg-blue-600 transition duration-150 ease-in-out">Edit</button>
-                    <button class="ml-2 px-4 py-2 font-medium text-white bg-red-600 rounded-md hover:bg-red-500 focus:outline-none focus:shadow-outline-red active:bg-red-600 transition duration-150 ease-in-out">Delete</button>
+                    <div class="flex items-center space-x-2">
+                        <a href="/finance/savings/{{ $saving->id }}/edit" class="px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue active:bg-blue-600 transition duration-150 ease-in-out">Edit</a>
+                        <form method="POST" action="/finance/savings/{{ $saving->description }}" class="px-3 py-2 font-medium text-white bg-red-600 rounded-md hover:bg-red-500 focus:outline-none focus:shadow-outline-red active:bg-red-600 transition duration-150 ease-in-out">
+                            @csrf
+                            @method('DELETE')
+                            <button >Delete</button>
+                        </form>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -82,10 +93,14 @@
             <td class="px-6 py-4 whitespace-nowrap">{{ $debt->due_date }}</td>
             <td class="px-6 py-4 whitespace-nowrap">{{ $debt->status }}</td>
             <td class="px-6 py-4 whitespace-nowrap">
-                <form action="">
-                    <button class="px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue active:bg-blue-600 transition duration-150 ease-in-out">Edit</button>
-                    <button class="ml-2 px-4 py-2 font-medium text-white bg-red-600 rounded-md hover:bg-red-500 focus:outline-none focus:shadow-outline-red active:bg-red-600 transition duration-150 ease-in-out">Delete</button>
-                </form>
+                <div class="flex items-center space-x-2">
+                        <a href="/finance/savings/{{ $saving->id }}/edit" class="px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue active:bg-blue-600 transition duration-150 ease-in-out">Edit</a>
+                        <form method="POST" action="/finance/savings/{{ $saving->description }}" class="px-3 py-2 font-medium text-white bg-red-600 rounded-md hover:bg-red-500 focus:outline-none focus:shadow-outline-red active:bg-red-600 transition duration-150 ease-in-out">
+                            @csrf
+                            @method('DELETE')
+                            <button >Delete</button>
+                        </form>
+                    </div>
             </td>
         </tr>
     </tbody>
@@ -93,3 +108,6 @@
 </table>
 
 </x-layout>
+
+
+
